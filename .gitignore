@@ -1,0 +1,8 @@
+# Directories
+[Bb]in/
+[Bb]in-int/
+.vs/
+
+# Files
+*.filters
+*.user
