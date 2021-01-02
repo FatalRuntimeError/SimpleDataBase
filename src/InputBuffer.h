@@ -5,32 +5,35 @@
 #include <string>
 #include <cstdlib>
 
-struct input_buffer {
-	std::string buffer;
-	size_t input_length;
-};
-
-input_buffer* new_input_buffer()
+namespace DB
 {
-	input_buffer* buffer = new input_buffer;
-	buffer->buffer = "";
-	buffer->input_length = 0;
+	struct input_buffer {
+		std::string buffer;
+		size_t input_length;
+	};
 
-	return buffer;
-}
-
-void read_input(input_buffer* buffer)
-{
-	if (std::getline(std::cin, buffer->buffer).fail())
+	input_buffer* new_input_buffer()
 	{
-		printf("Error reading input\n");
-		exit(EXIT_FAILURE);
+		input_buffer* buffer = new input_buffer;
+		buffer->buffer = "";
+		buffer->input_length = 0;
+
+		return buffer;
 	}
 
-	buffer->input_length = buffer->buffer.length() - 1;
-}
+	void read_input(input_buffer* buffer)
+	{
+		if (std::getline(std::cin, buffer->buffer).fail())
+		{
+			printf("Error reading input\n");
+			exit(EXIT_FAILURE);
+		}
 
-void close_input_buffer(input_buffer* buffer)
-{
-	delete buffer;
+		buffer->input_length = buffer->buffer.length() - 1;
+	}
+
+	void close_input_buffer(input_buffer* buffer)
+	{
+		delete buffer;
+	}
 }

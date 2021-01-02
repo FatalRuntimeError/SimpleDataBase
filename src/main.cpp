@@ -7,8 +7,11 @@ void print_prompt()
 	std::cout << "db > ";
 }
 
+using namespace DB;
+
 int main(int argc, char** argv)
 {
+	table* table = new_table();
 	input_buffer* input_buffer = new_input_buffer();
 
 	bool is_running = true;
@@ -34,18 +37,32 @@ int main(int argc, char** argv)
 			}
 		}
 
-
 		statement statement;
 		switch (prepare_statement(input_buffer, &statement))
 		{
 		case PrepareResult::SUCCESS:
-			execute_statement(&statement);
 			break;
+
+		case PrepareResult::SYNTAX_ERROR:
+			std::cout << "Syntax error. Could not parse statement." << std::endl;
+			continue;
 
 		case PrepareResult::UNRECOGNIZED_STATEMENT:
 			std::cout << "Unrecognized keyword at start of '" << input_buffer->buffer << "'" << std::endl;
 			continue;
 
+		default:
+			break;
+		}
+
+		switch (execute_statement(&statement, table))
+		{
+		case ExecuteResult::SUCCESS:
+			std::cout << "Executed" << std::endl;
+			break;
+		case ExecuteResult::TABLE_FULL:
+			std::cout << "Error: Table full." << std::endl;
+			break;
 		default:
 			break;
 		}
