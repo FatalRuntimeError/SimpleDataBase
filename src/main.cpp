@@ -51,6 +51,14 @@ int main(int argc, char** argv)
 			std::cout << "Unrecognized keyword at start of '" << input_buffer->buffer << "'" << std::endl;
 			continue;
 
+		case PrepareResult::STRING_TOO_LONG:
+			std::cout << "String is too long." << std::endl;
+			continue;
+
+		case PrepareResult::NEGATIVE_ID:
+			std::cout << "ID must be positive." << std::endl;
+			continue;
+
 		default:
 			break;
 		}
@@ -58,7 +66,7 @@ int main(int argc, char** argv)
 		switch (execute_statement(&statement, table))
 		{
 		case ExecuteResult::SUCCESS:
-			std::cout << "Executed" << std::endl;
+			std::cout << "Executed." << std::endl;
 			break;
 		case ExecuteResult::TABLE_FULL:
 			std::cout << "Error: Table full." << std::endl;

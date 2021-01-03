@@ -9,8 +9,8 @@ namespace DB
 	struct row
 	{
 		uint32_t id;
-		char username[Username];
-		char email[Email];
+		char username[Username + 1];
+		char email[Email + 1];
 	};
 
 	const uint32_t IDSize = sizeof(row::id);
